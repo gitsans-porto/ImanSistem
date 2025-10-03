@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Peminjaman Alat - TI</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons for UI icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F4E3; /* Putih Gading / Ivory */
+        }
+        .btn-primary {
+            background-color: #2563EB; /* Biru Primer */
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #1D4ED8;
+        }
+        .text-primary {
+            color: #2563EB;
+        }
+        .border-primary {
+            border-color: #2563EB;
+        }
+        .bg-primary {
+            background-color: #2563EB;
+        }
+        .bg-secondary {
+            background-color: #F8F4E3; /* Putih Gading */
+        }
+        .card {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .tab-active {
+            border-bottom: 2px solid #2563EB;
+            color: #2563EB;
+            font-weight: 600;
+        }
+        .tab-inactive {
+            color: #6B7280;
+        }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="bg-secondary">
+
+    <div id="app" class="max-w-md mx-auto min-h-screen shadow-lg">
+
+        <!-- =================================================================== -->
+        <!--                          1. HALAMAN LOGIN                           -->
+        <!-- =================================================================== -->
+        <div id="login-page" class="w-full h-screen flex flex-col p-6 bg-secondary">
+            <div class="text-center my-auto">
+                <div class="flex justify-center mb-4">
+                   <i data-lucide="building-2" class="w-16 h-16 text-primary"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800">Selamat Datang</h1>
+                <p class="text-gray-500 mt-1">Aplikasi Peminjaman Alat Jurusan TI</p>
+
+                <!-- Tabs for Role Selection -->
+                <div class="flex border-b mt-8">
+                    <button id="user-tab" class="flex-1 py-2 tab-active" onclick="switchTab('user')">User</button>
+                    <button id="admin-tab" class="flex-1 py-2 tab-inactive" onclick="switchTab('admin')">Admin</button>
+                </div>
+
+                <!-- User Login Form -->
+                <form id="user-login-form" class="mt-6 text-left">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Login sebagai</label>
+                        <div class="mt-2 grid grid-cols-3 gap-2">
+                            <label class="flex items-center">
+                                <input type="radio" name="loginRole" value="mahasiswa" class="text-primary focus:ring-blue-500" checked onchange="toggleLoginFields()">
+                                <span class="ml-2 text-gray-700 text-sm">Mahasiswa</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="loginRole" value="dosen" class="text-primary focus:ring-blue-500" onchange="toggleLoginFields()">
+                                <span class="ml-2 text-gray-700 text-sm">Dosen</span>
+                            </label>
+                             <label class="flex items-center">
+                                <input type="radio" name="loginRole" value="pegawai" class="text-primary focus:ring-blue-500" onchange="toggleLoginFields()">
+                                <span class="ml-2 text-gray-700 text-sm">Pegawai</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="login-nim-field" class="mb-4">
+                        <label for="login-nim" class="block text-sm font-medium text-gray-700">NIM</label>
+                        <input type="text" id="login-nim" placeholder="Masukkan NIM Anda" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div id="login-nip-field" class="mb-4 hidden">
+                        <label for="login-nip" class="block text-sm font-medium text-gray-700">NIP</label>
+                        <input type="text" id="login-nip" placeholder="Masukkan NIP Anda" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div id="login-pegawai-field" class="mb-4 hidden">
+                        <label for="login-pegawai" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
+                        <input type="text" id="login-pegawai" placeholder="Masukkan Nama Anda" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+
+                    <div class="mb-6">
+                        <label for="user-password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="user-password" placeholder="********" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <button type="button" class="w-full btn-primary font-bold py-2 px-4 rounded-lg" onclick="login('user')">Login</button>
+                </form>
+
+                <!-- Admin Login Form (Hidden by default) -->
+                <form id="admin-login-form" class="mt-6 text-left hidden">
+                    <div class="mb-4">
+                        <label for="admin-name" class="block text-sm font-medium text-gray-700">Nama Operator</label>
+                        <input type="text" id="admin-name" placeholder="Masukkan Nama Anda" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div class="mb-6">
+                        <label for="admin-password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="admin-password" placeholder="********" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <button type="button" class="w-full btn-primary font-bold py-2 px-4 rounded-lg" onclick="login('admin')">Login sebagai Admin</button>
+                </form>
+                
+                <p class="text-sm text-center text-gray-500 mt-6">
+                    Belum punya akun? <a href="#" class="font-medium text-primary hover:underline" onclick="showPage('register-page')">Registrasi di sini</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!--                       2. HALAMAN REGISTRASI                         -->
+        <!-- =================================================================== -->
+        <div id="register-page" class="w-full h-screen flex-col p-6 bg-secondary hidden">
+             <div class="flex items-center mb-6">
+                <button onclick="showPage('login-page')" class="p-2 rounded-full hover:bg-gray-200">
+                    <i data-lucide="arrow-left" class="w-6 h-6 text-gray-700"></i>
+                </button>
+                <h1 class="text-xl font-bold text-gray-800 ml-4">Registrasi Akun Baru</h1>
+            </div>
+            <form class="space-y-4 overflow-y-auto no-scrollbar">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Saya adalah seorang</label>
+                    <div class="mt-2 grid grid-cols-3 gap-2">
+                        <label class="flex items-center">
+                            <input type="radio" name="role" value="mahasiswa" class="text-primary focus:ring-blue-500" checked onchange="toggleRoleFields()">
+                            <span class="ml-2 text-gray-700 text-sm">Mahasiswa</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="role" value="dosen" class="text-primary focus:ring-blue-500" onchange="toggleRoleFields()">
+                            <span class="ml-2 text-gray-700 text-sm">Dosen</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="role" value="pegawai" class="text-primary focus:ring-blue-500" onchange="toggleRoleFields()">
+                            <span class="ml-2 text-gray-700 text-sm">Pegawai</span>
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <label for="reg-nama" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
+                    <input type="text" id="reg-nama" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md">
+                </div>
+                <div id="nim-field">
+                    <label for="reg-nim" class="block text-sm font-medium text-gray-700">NIM</label>
+                    <input type="text" id="reg-nim" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md">
+                </div>
+                <div id="nip-field" class="hidden">
+                    <label for="reg-nip" class="block text-sm font-medium text-gray-700">NIP</label>
+                    <input type="text" id="reg-nip" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md">
+                </div>
+                <div id="mahasiswa-fields">
+                    <div class="space-y-4">
+                        <div id="angkatan-field">
+                            <label for="reg-angkatan" class="block text-sm font-medium text-gray-700">Angkatan</label>
+                            <input type="number" id="reg-angkatan" placeholder="Contoh: 2021" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md">
+                        </div>
+                        <div id="kelas-field">
+                            <label for="reg-kelas" class="block text-sm font-medium text-gray-700">Kelas</label>
+                            <input type="text" id="reg-kelas" placeholder="Contoh: IF-1A" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md">
+                        </div>
+                         <div>
+                            <label for="reg-prodi" class="block text-sm font-medium text-gray-700">Program Studi</label>
+                            <select id="reg-prodi" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md">
+                                <option>Teknik Informatika</option>
+                                <option>Sistem Informasi</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label for="reg-password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="reg-password" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md">
+                </div>
+                <div class="pt-4">
+                    <button type="button" class="w-full btn-primary font-bold py-2 px-4 rounded-lg" onclick="showPage('login-page')">Registrasi</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- =================================================================== -->
+        <!--                         3. BERANDA USER                             -->
+        <!-- =================================================================== -->
+        <div id="user-dashboard-page" class="w-full h-screen flex-col bg-secondary hidden">
+            <header class="bg-primary text-white p-4 shadow-md sticky top-0">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-xl font-bold">Beranda Peminjam</h1>
+                        <p id="user-greeting" class="text-sm opacity-80">Halo, User!</p>
+                    </div>
+                    <button onclick="showPage('login-page')" class="p-2 rounded-full hover:bg-blue-700">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </header>
+            
+            <main class="p-4 flex-grow overflow-y-auto pb-20 no-scrollbar">
+                 <div class="grid grid-cols-2 gap-4">
+                    <button class="card p-4 text-center hover:bg-blue-50" onclick="toggleBorrowModal(true)">
+                        <i data-lucide="plus-square" class="w-8 h-8 mx-auto text-primary mb-2"></i>
+                        <span class="text-sm font-semibold text-gray-700">Pinjam Alat</span>
+                    </button>
+                    <button class="card p-4 text-center hover:bg-blue-50" onclick="showPage('user-tools-list-page')">
+                        <i data-lucide="list" class="w-8 h-8 mx-auto text-primary mb-2"></i>
+                        <span class="text-sm font-semibold text-gray-700">Lihat Alat</span>
+                    </button>
+                </div>
+
+                <h3 class="text-lg font-semibold text-gray-700 mt-6 mb-3">Status Peminjaman Terkini</h3>
+                
+                <!-- Daftar Peminjaman -->
+                <div class="space-y-3">
+                    <!-- Item: Disetujui / Sedang Dipinjam -->
+                    <div class="card p-4">
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-blue-100 p-3 rounded-lg">
+                               <i data-lucide="projector" class="w-6 h-6 text-primary"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <div class="flex justify-between items-center">
+                                    <p class="font-semibold text-gray-800">LCD Proyektor</p>
+                                    <span class="text-xs font-bold text-orange-500 bg-orange-100 py-1 px-2 rounded-full">Dipinjam</span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Pinjam: 3 Okt 2025, 10:00</p>
+                                <p class="text-xs text-red-500 font-medium">Kembali: 3 Okt 2025, 14:00</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-right">
+                             <button class="bg-green-500 text-white text-sm font-semibold px-4 py-1.5 rounded-lg hover:bg-green-600">
+                                Kembalikan Alat
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Modal Peminjaman Mahasiswa -->
+            <div id="borrow-modal-mahasiswa" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+                <div class="card w-full max-w-sm p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold text-gray-800">Form Peminjaman Mahasiswa</h3>
+                        <button onclick="toggleBorrowModal(false)" class="p-1 rounded-full hover:bg-gray-200">
+                           <i data-lucide="x" class="w-5 h-5 text-gray-600"></i>
+                        </button>
+                    </div>
+                    <form class="space-y-4">
+                        <!-- Form fields for Mahasiswa -->
+                         <div>
+                            <label for="mata-kuliah-mahasiswa" class="block text-sm font-medium text-gray-700">Mata Kuliah</label>
+                            <input type="text" id="mata-kuliah-mahasiswa" placeholder="Contoh: Pemrograman Web" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md">
+                        </div>
+                        <div>
+                            <label for="dosen-pengampu-mahasiswa" class="block text-sm font-medium text-gray-700">Dosen Pengampu</label>
+                            <input type="text" id="dosen-pengampu-mahasiswa" placeholder="Contoh: Dr. Budi Santoso" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md">
+                        </div>
+                         <button type="button" class="w-full btn-primary font-bold py-2 px-4 rounded-lg" onclick="toggleBorrowModal(false)">Ajukan Peminjaman</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Modal Peminjaman Dosen -->
+            <div id="borrow-modal-dosen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+                <div class="card w-full max-w-sm p-6">
+                     <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold text-gray-800">Form Peminjaman Dosen</h3>
+                        <button onclick="toggleBorrowModal(false)" class="p-1 rounded-full hover:bg-gray-200">
+                           <i data-lucide="x" class="w-5 h-5 text-gray-600"></i>
+                        </button>
+                    </div>
+                    <form class="space-y-4">
+                       <!-- Form fields for Dosen -->
+                        <select id="keperluan-dosen" onchange="toggleDosenCourseFields()" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md">
+                            <option value="mengajar">Kegiatan Mengajar</option>
+                            <option value="penelitian">Penelitian</option>
+                            <option value="lainnya">Lainnya</option>
+                        </select>
+                        <div id="dosen-course-fields" class="space-y-4">
+                            <input type="text" id="mata-kuliah-dosen-new" placeholder="Contoh: Jaringan Komputer" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md">
+                            <input type="text" id="kelas-ajar-dosen-new" placeholder="Contoh: IF-1A, IF-2B" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md">
+                        </div>
+                        <button type="button" class="w-full btn-primary font-bold py-2 px-4 rounded-lg" onclick="toggleBorrowModal(false)">Ajukan Peminjaman</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Modal Peminjaman Pegawai -->
+            <div id="borrow-modal-pegawai" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+                <div class="card w-full max-w-sm p-6">
+                     <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold text-gray-800">Form Peminjaman Pegawai</h3>
+                        <button onclick="toggleBorrowModal(false)" class="p-1 rounded-full hover:bg-gray-200">
+                           <i data-lucide="x" class="w-5 h-5 text-gray-600"></i>
+                        </button>
+                    </div>
+                    <form class="space-y-4">
+                        <div>
+                            <label for="nama-peminjam-pegawai" class="block text-sm font-medium text-gray-700">Nama Peminjam</label>
+                            <input type="text" id="nama-peminjam-pegawai" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md">
+                        </div>
+                        <div>
+                            <label for="alat-pegawai" class="block text-sm font-medium text-gray-700">Jenis Alat</label>
+                            <select id="alat-pegawai" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md">
+                                <option>LCD Proyektor</option>
+                                <option>Stop Kontak / Rol Kabel</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="keperluan-pegawai" class="block text-sm font-medium text-gray-700">Keperluan</label>
+                            <textarea id="keperluan-pegawai" rows="3" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md"></textarea>
+                        </div>
+                        <div>
+                            <label for="waktu-pinjam-pegawai" class="block text-sm font-medium text-gray-700">Waktu Pinjam</label>
+                            <input type="datetime-local" id="waktu-pinjam-pegawai" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md">
+                        </div>
+                        <div>
+                            <label for="waktu-kembali-pegawai" class="block text-sm font-medium text-gray-700">Waktu Kembali</label>
+                            <input type="datetime-local" id="waktu-kembali-pegawai" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md">
+                        </div>
+                        <button type="button" class="w-full btn-primary font-bold py-2 px-4 rounded-lg" onclick="toggleBorrowModal(false)">Ajukan Peminjaman</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- =================================================================== -->
+        <!--                   3.1. HALAMAN DAFTAR ALAT (USER)                   -->
+        <!-- =================================================================== -->
+        <div id="user-tools-list-page" class="w-full min-h-screen flex flex-col bg-secondary hidden">
+             <header class="bg-primary text-white p-4 shadow-md sticky top-0 z-10 flex items-center">
+                <button onclick="showPage('user-dashboard-page')" class="p-2 rounded-full hover:bg-blue-700 mr-2">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                </button>
+                <h1 class="text-xl font-bold">Daftar Alat Tersedia</h1>
+            </header>
+             <main class="p-4 flex-grow overflow-y-auto no-scrollbar">
+                <div class="space-y-3">
+                    <div class="card p-4 flex items-center justify-between">
+                        <div>
+                            <p class="font-semibold text-gray-800">LCD Proyektor</p>
+                            <p class="text-sm text-green-600 font-medium">Tersedia: 3 dari 5</p>
+                        </div>
+                        <button class="btn-primary rounded-lg px-4 py-2 text-sm font-semibold" onclick="toggleBorrowModal(true)">Pinjam</button>
+                    </div>
+                </div>
+             </main>
+        </div>
+
+        <!-- =================================================================== -->
+        <!--                         4. BERANDA ADMIN                            -->
+        <!-- =================================================================== -->
+        <div id="admin-dashboard-page" class="w-full min-h-screen flex flex-col bg-secondary hidden">
+             <header class="bg-primary text-white p-4 shadow-md sticky top-0 z-10">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-xl font-bold">Dashboard Admin</h1>
+                        <p class="text-sm opacity-80">Halo, Operator!</p>
+                    </div>
+                    <button onclick="showPage('login-page')" class="p-2 rounded-full hover:bg-blue-700">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </header>
+
+            <main class="p-4 flex-grow overflow-y-auto no-scrollbar">
+                <div class="grid grid-cols-2 gap-4">
+                    <button class="card p-4 text-center hover:bg-blue-50" onclick="showPage('admin-tools-page')">
+                        <i data-lucide="database" class="w-8 h-8 mx-auto text-primary mb-2"></i>
+                        <span class="text-sm font-semibold text-gray-700">Data Alat</span>
+                    </button>
+                    <button class="card p-4 text-center hover:bg-blue-50" onclick="showPage('admin-history-page')">
+                        <i data-lucide="history" class="w-8 h-8 mx-auto text-primary mb-2"></i>
+                        <span class="text-sm font-semibold text-gray-700">Riwayat Pinjam</span>
+                    </button>
+                </div>
+                
+                <div class="card mt-6 p-4">
+                    <h3 class="font-bold text-gray-800 mb-4">Ketersediaan Stok</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-gray-700">LCD Proyektor</span>
+                                <span class="text-sm font-medium text-gray-700">3 / 5</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-yellow-400 h-2.5 rounded-full" style="width: 60%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="text-lg font-semibold text-gray-700 mt-6 mb-3">Peminjaman Terkini</h3>
+
+                <div class="space-y-3">
+                    <div class="card p-3 cursor-pointer hover:bg-gray-50" onclick="showBorrowerDetail('pending')">
+                        <p class="font-semibold text-sm">Dewi Anggraini (Mahasiswa)</p>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Modal Detail Peminjam -->
+            <div id="borrower-detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+                <div class="card w-full max-w-sm p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold text-gray-800">Detail Peminjaman</h3>
+                        <button onclick="toggleBorrowerDetailModal(false)" class="p-1 rounded-full hover:bg-gray-200">
+                           <i data-lucide="x" class="w-5 h-5 text-gray-600"></i>
+                        </button>
+                    </div>
+                    <div class="overflow-y-auto max-h-96 no-scrollbar">
+                        <h4 class="font-semibold text-gray-700 mb-2">Informasi Peminjam</h4>
+                        <div id="detail-keperluan-mahasiswa" class="text-sm space-y-1 text-gray-600">
+                            <p><strong>Mata Kuliah:</strong> <span id="detail-matkul"></span></p>
+                        </div>
+                        <div id="detail-keperluan-dosen" class="text-sm space-y-1 text-gray-600">
+                           <div id="detail-dosen-matkul-container" class="space-y-1 mt-1">
+                                <p><strong>Mata Kuliah Diampu:</strong> <span id="detail-matkul-dosen"></span></p>
+                            </div>
+                        </div>
+                        <div id="detail-keperluan-pegawai" class="text-sm space-y-1 text-gray-600">
+                            <p><strong>Keperluan:</strong> <span id="detail-deskripsi-pegawai"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        <!-- =================================================================== -->
+        <!--                     4.1. HALAMAN DAFTAR ALAT (ADMIN)                -->
+        <!-- =================================================================== -->
+        <div id="admin-tools-page" class="w-full min-h-screen flex flex-col bg-secondary hidden">
+            <header class="bg-primary text-white p-4 shadow-md sticky top-0 z-10 flex items-center">
+                <button onclick="showPage('admin-dashboard-page')" class="p-2 rounded-full hover:bg-blue-700 mr-2">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                </button>
+                <h1 class="text-xl font-bold">Data Alat Jurusan</h1>
+            </header>
+            
+            <main class="p-4 flex-grow">
+                 <button class="w-full btn-primary font-bold py-2.5 px-4 rounded-lg flex items-center justify-center space-x-2 mb-4" onclick="toggleAddToolModal(true)">
+                    <i data-lucide="plus" class="w-5 h-5"></i>
+                    <span>Tambah Alat Baru</span>
+                </button>
+                <div class="space-y-3">
+                    <div class="card p-4">
+                    </div>
+                </div>
+            </main>
+
+            <!-- Modal Add/Edit Data Alat -->
+            <div id="add-tool-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+                <div class="card w-full max-w-sm p-6">
+                    <form class="space-y-4">
+                        <div>
+                            <label for="tool-name" class="block text-sm font-medium text-gray-700">Nama Alat</label>
+                            <input type="text" id="tool-name" placeholder="Contoh: LCD Proyektor" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div id="confirm-delete-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+                <div class="card w-full max-w-sm p-6 text-center">
+                    <i data-lucide="alert-triangle" class="w-12 h-12 mx-auto text-red-500 mb-4"></i>
+                    <h3 class="text-lg font-bold text-gray-800">Anda Yakin?</h3>
+                </div>
+            </div>
+        </div>
+        
+        <!-- =================================================================== -->
+        <!--                  4.2. HALAMAN RIWAYAT (ADMIN)                       -->
+        <!-- =================================================================== -->
+        <div id="admin-history-page" class="w-full min-h-screen flex flex-col bg-secondary hidden">
+            <header class="bg-primary text-white p-4 shadow-md sticky top-0 z-10 flex items-center">
+                <button onclick="showPage('admin-dashboard-page')" class="p-2 rounded-full hover:bg-blue-700 mr-2">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                </button>
+                <h1 class="text-xl font-bold">Riwayat Peminjaman</h1>
+            </header>
+            
+            <main class="p-4 flex-grow">
+                <div class="flex space-x-2 mb-4">
+                    <input type="date" class="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm">
+                </div>
+                <div class="space-y-3">
+                     <div class="card p-4 cursor-pointer hover:bg-gray-50" onclick="showBorrowerDetail('completed_mahasiswa')">
+                        <p class="font-semibold text-gray-800">Citra Lestari (Mahasiswa)</p>
+                    </div>
+                     <div class="card p-4 cursor-pointer hover:bg-gray-50" onclick="showBorrowerDetail('completed_pegawai')">
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-blue-100 p-3 rounded-lg">
+                                <i data-lucide="briefcase" class="w-6 h-6 text-primary"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <p class="font-semibold text-gray-800">Rahmat Hidayat (Pegawai)</p>
+                                <p class="text-sm text-gray-500">Meminjam <span class="font-medium text-gray-700">Sound System</span></p>
+                                <p class="text-xs text-gray-400 mt-1">Selesai pada 3 Okt 2025, 11:00</p>
+                            </div>
+                            <div class="text-gray-400">
+                                <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+
+    </div>
+
+    <script>
+        const pages = [
+            'login-page', 'register-page', 
+            'user-dashboard-page', 'user-tools-list-page',
+            'admin-dashboard-page', 'admin-tools-page', 'admin-history-page'
+        ];
+        
+        let currentUserRole = 'mahasiswa'; // Default role
+
+        function showPage(pageId) {
+            pages.forEach(page => {
+                document.getElementById(page).classList.add('hidden');
+                document.getElementById(page).classList.remove('flex');
+            });
+            const newPage = document.getElementById(pageId);
+            newPage.classList.remove('hidden');
+            newPage.classList.add('flex');
+            newPage.scrollTop = 0; // scroll to top
+        }
+
+        function login(role) {
+            if (role === 'user') {
+                const selectedRole = document.querySelector('input[name="loginRole"]:checked').value;
+                
+                currentUserRole = selectedRole;
+                const greeting = document.getElementById('user-greeting');
+                if (selectedRole === 'dosen') {
+                    greeting.innerText = "Halo, Dosen!";
+                } else if (selectedRole === 'pegawai') {
+                    greeting.innerText = "Halo, Pegawai!";
+                }
+                else {
+                    greeting.innerText = "Halo, Mahasiswa!";
+                }
+                showPage('user-dashboard-page');
+            } else {
+                showPage('admin-dashboard-page');
+            }
+        }
+
+        function switchTab(tab) {
+            const userTab = document.getElementById('user-tab');
+            const adminTab = document.getElementById('admin-tab');
+            const userForm = document.getElementById('user-login-form');
+            const adminForm = document.getElementById('admin-login-form');
+
+            if (tab === 'user') {
+                userTab.className = 'flex-1 py-2 tab-active';
+                adminTab.className = 'flex-1 py-2 tab-inactive';
+                userForm.classList.remove('hidden');
+                adminForm.classList.add('hidden');
+            } else {
+                adminTab.className = 'flex-1 py-2 tab-active';
+                userTab.className = 'flex-1 py-2 tab-inactive';
+                adminForm.classList.remove('hidden');
+                userForm.classList.add('hidden');
+            }
+        }
+        
+        function toggleLoginFields() {
+            const role = document.querySelector('input[name="loginRole"]:checked').value;
+            const nimField = document.getElementById('login-nim-field');
+            const nipField = document.getElementById('login-nip-field');
+            const pegawaiField = document.getElementById('login-pegawai-field');
+
+            nimField.classList.add('hidden');
+            nipField.classList.add('hidden');
+            pegawaiField.classList.add('hidden');
+
+            if (role === 'mahasiswa') {
+                nimField.classList.remove('hidden');
+            } else if (role === 'dosen') {
+                nipField.classList.remove('hidden');
+            } else { // pegawai
+                pegawaiField.classList.remove('hidden');
+            }
+        }
+        
+        function toggleRoleFields() {
+            const role = document.querySelector('input[name="role"]:checked').value;
+            const nimField = document.getElementById('nim-field');
+            const nipField = document.getElementById('nip-field');
+            const mahasiswaFields = document.getElementById('mahasiswa-fields');
+            
+            nimField.classList.add('hidden');
+            nipField.classList.add('hidden');
+            mahasiswaFields.classList.add('hidden');
+
+            if (role === 'mahasiswa') {
+                nimField.classList.remove('hidden');
+                mahasiswaFields.classList.remove('hidden');
+            } else if (role === 'dosen'){
+                nipField.classList.remove('hidden');
+            }
+        }
+        
+        function toggleDosenCourseFields() {
+            const keperluan = document.getElementById('keperluan-dosen').value;
+            const courseFields = document.getElementById('dosen-course-fields');
+            if (keperluan === 'mengajar') {
+                courseFields.classList.remove('hidden');
+            } else {
+                courseFields.classList.add('hidden');
+            }
+        }
+
+        // --- MODAL TOGGLERS ---
+        function toggleBorrowModal(show) {
+            const studentModal = document.getElementById('borrow-modal-mahasiswa');
+            const lecturerModal = document.getElementById('borrow-modal-dosen');
+            const staffModal = document.getElementById('borrow-modal-pegawai');
+
+            if (!show) {
+                studentModal.classList.add('hidden');
+                lecturerModal.classList.add('hidden');
+                staffModal.classList.add('hidden');
+                return;
+            }
+            
+            studentModal.classList.add('hidden');
+            lecturerModal.classList.add('hidden');
+            staffModal.classList.add('hidden');
+
+            if (currentUserRole === 'dosen') {
+                lecturerModal.classList.remove('hidden');
+                toggleDosenCourseFields();
+            } else if (currentUserRole === 'pegawai') {
+                staffModal.classList.remove('hidden');
+            }
+            else {
+                studentModal.classList.remove('hidden');
+            }
+        }
+        
+        function toggleAddToolModal(show, isEdit = false) {
+            document.getElementById('add-tool-modal').classList.toggle('hidden', !show);
+        }
+
+        function toggleEditToolModal(show) {
+            toggleAddToolModal(show, true);
+        }
+        
+        function toggleConfirmDeleteModal(show) {
+            document.getElementById('confirm-delete-modal').classList.toggle('hidden', !show);
+        }
+        
+        function toggleBorrowerDetailModal(show) {
+            document.getElementById('borrower-detail-modal').classList.toggle('hidden', !show);
+        }
+        // --- END OF MODAL TOGGLERS ---
+
+        // Mock Data for borrower detail
+        const borrowerData = {
+             borrowed: { // mahasiswa
+                nama: "Andi Pratama",
+                nim: "21021106001",
+                role: 'mahasiswa',
+            },
+            pending: { // mahasiswa
+                nama: "Dewi Anggraini",
+                nim: "21021106025",
+                role: 'mahasiswa',
+            },
+            completed_dosen: {
+                nama: "Dr. Budi Santoso",
+                nim: "198503152008011001",
+                role: 'dosen',
+            },
+            completed_mahasiswa: {
+                nama: "Citra Lestari",
+                nim: "21021106015",
+                role: 'mahasiswa',
+            },
+            completed_pegawai: {
+                nama: "Rahmat Hidayat",
+                role: 'pegawai',
+                deskripsi: "Untuk rapat bulanan di ruang rapat.",
+            }
+        };
+
+        // Function to populate and show borrower detail
+        function showBorrowerDetail(statusKey) {
+            const data = borrowerData[statusKey];
+            
+            const detailMhs = document.getElementById('detail-keperluan-mahasiswa');
+            const detailDosen = document.getElementById('detail-keperluan-dosen');
+            const detailPegawai = document.getElementById('detail-keperluan-pegawai');
+
+            detailMhs.classList.add('hidden');
+            detailDosen.classList.add('hidden');
+            detailPegawai.classList.add('hidden');
+
+            if(data.role === 'mahasiswa') {
+                detailMhs.classList.remove('hidden');
+            } else if (data.role === 'dosen') {
+                detailDosen.classList.remove('hidden');
+            } else { // pegawai
+                detailPegawai.classList.remove('hidden');
+                document.getElementById('detail-deskripsi-pegawai').innerText = data.deskripsi;
+            }
+
+            toggleBorrowerDetailModal(true);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            showPage('login-page');
+            toggleRoleFields(); 
+            toggleLoginFields();
+        });
+    </script>
+</body>
+</html>
