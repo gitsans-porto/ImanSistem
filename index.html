@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JuruPinjam - Sistem Inventaris Jurusan</title>
+    <title>SI-PAJUR - Sistem Peminjaman Aset Jurusan</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -55,8 +55,8 @@
         <!-- =================================================================== -->
         <div id="login-screen" class="p-6">
             <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-primary">JuruPinjam</h1>
-                <p class="text-gray-500">Sistem Inventaris Jurusan</p>
+                <h1 class="text-3xl font-bold text-primary">SI-PAJUR</h1>
+                <p class="text-gray-500">Sistem Informasi Peminjaman Aset Jurusan</p>
             </div>
 
             <!-- Tab Pilihan Login -->
@@ -217,8 +217,12 @@
         <div id="user-dashboard-screen" class="hidden">
             <!-- Header -->
             <header class="bg-primary p-4 flex justify-between items-center">
-                <h1 class="text-white text-xl font-bold">Beranda</h1>
-                <button class="text-white" onclick="showScreen('login-screen')">Logout</button>
+                <h1 class="text-white text-xl font-bold">Beranda Pengguna</h1>
+                <button class="text-white hover:bg-red-900 p-2 rounded-full" title="Logout" onclick="showScreen('login-screen')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                </button>
             </header>
 
             <div class="p-6">
@@ -309,7 +313,11 @@
             <!-- Header -->
             <header class="bg-primary p-4 flex justify-between items-center">
                 <h1 class="text-white text-xl font-bold">Dashboard Admin</h1>
-                <button class="text-white" onclick="showScreen('login-screen')">Logout</button>
+                <button class="text-white hover:bg-red-900 p-2 rounded-full" title="Logout" onclick="showScreen('login-screen')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                </button>
             </header>
             
             <div class="p-6">
@@ -325,9 +333,15 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
                         <span class="font-semibold text-center">Input Data Alat</span>
                     </button>
-                    <button class="bg-gray-200 text-gray-800 p-4 rounded-lg shadow-md flex flex-col items-center justify-center space-y-2 hover:bg-gray-300" onclick="showModal('riwayat-peminjam-modal')">
+                    <button class="bg-gray-200 text-gray-800 p-4 rounded-lg shadow-md flex flex-col items-center justify-center space-y-2 hover:bg-gray-300" onclick="showModal('daftar-alat-admin-modal')">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        <span class="font-semibold text-center">Kelola Daftar Alat</span>
+                    </button>
+                    <button class="bg-gray-200 text-gray-800 p-4 rounded-lg shadow-md flex flex-col items-center justify-center space-y-2 hover:bg-gray-300 col-span-2" onclick="showModal('riwayat-peminjam-modal')">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" /><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" /></svg>
-                        <span class="font-semibold text-center">Riwayat Peminjam</span>
+                        <span class="font-semibold text-center">Lihat Riwayat Peminjam</span>
                     </button>
                 </div>
                 
@@ -525,7 +539,79 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Kelola Daftar Alat (Admin) -->
+    <div id="daftar-alat-admin-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 relative max-h-screen overflow-y-auto">
+             <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" onclick="closeModal('daftar-alat-admin-modal')">&times;</button>
+            <h2 class="text-2xl font-bold text-primary mb-4">Kelola Daftar Alat</h2>
+            <div class="space-y-3">
+                <!-- Contoh item 1 -->
+                <div class="p-3 bg-gray-50 rounded-md flex justify-between items-center">
+                    <div>
+                        <p class="font-semibold">Proyektor LCD Epson</p>
+                        <p class="text-xs text-gray-500">Jumlah: 3</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="text-blue-600 hover:text-blue-800" onclick="showModal('edit-alat-modal')">Edit</button>
+                        <button class="text-red-600 hover:text-red-800">Hapus</button>
+                    </div>
+                </div>
+                <!-- Contoh item 2 -->
+                 <div class="p-3 bg-gray-50 rounded-md flex justify-between items-center">
+                    <div>
+                        <p class="font-semibold">Konektor HDMI</p>
+                        <p class="text-xs text-gray-500">Jumlah: 8</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="text-blue-600 hover:text-blue-800" onclick="showModal('edit-alat-modal')">Edit</button>
+                        <button class="text-red-600 hover:text-red-800">Hapus</button>
+                    </div>
+                </div>
+                <!-- Contoh item 3 -->
+                 <div class="p-3 bg-gray-50 rounded-md flex justify-between items-center">
+                    <div>
+                        <p class="font-semibold">Stop Kontak 5 Lubang</p>
+                        <p class="text-xs text-gray-500">Jumlah: 12</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="text-blue-600 hover:text-blue-800" onclick="showModal('edit-alat-modal')">Edit</button>
+                        <button class="text-red-600 hover:text-red-800">Hapus</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
+    <!-- Modal Edit Alat (Admin) -->
+    <div id="edit-alat-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 relative max-h-screen overflow-y-auto">
+            <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" onclick="closeModal('edit-alat-modal')">&times;</button>
+            <h2 class="text-2xl font-bold text-primary mb-4">Edit Data Alat</h2>
+             <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nama Alat</label>
+                    <input type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" value="Proyektor LCD Epson">
+                </div>
+                 <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Jumlah</label>
+                        <input type="number" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" value="3">
+                    </div>
+                     <div>
+                        <label class="block text-sm font-medium text-gray-700">Kelengkapan</label>
+                        <input type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" value="Kabel Power, Tas">
+                    </div>
+                </div>
+                 <div>
+                    <label class="block text-sm font-medium text-gray-700">Deskripsi (Opsional)</label>
+                    <textarea rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">Proyektor untuk ruang kelas besar.</textarea>
+                </div>
+                <button class="w-full btn-primary font-bold py-2 px-4 rounded-md" onclick="closeModal('edit-alat-modal')">Simpan Perubahan</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Riwayat Peminjam (Admin) -->
     <div id="riwayat-peminjam-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 relative max-h-screen overflow-y-auto">
@@ -536,26 +622,61 @@
                 <input type="date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
             </div>
             <div class="space-y-4">
-                <!-- Contoh riwayat 1 -->
-                <div class="bg-gray-50 p-3 rounded-md">
-                    <p class="font-semibold">John Doe (Mahasiswa)</p>
-                    <p class="text-sm">Alat: Proyektor LCD</p>
-                    <p class="text-xs text-gray-500">Pinjam: 05 Okt 2025 | Kembali: 05 Okt 2025</p>
-                    <p class="text-xs text-gray-500">Status: <span class="text-green-600 font-semibold">Selesai</span></p>
+                <!-- Contoh riwayat 1: Dosen -->
+                <div class="bg-gray-50 p-4 rounded-lg border">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <p class="font-bold text-primary">Dr. Jane Smith (Dosen)</p>
+                            <p class="text-sm text-gray-600">NIP: 987654321</p>
+                        </div>
+                        <span class="text-xs font-semibold bg-green-100 text-green-800 px-2 py-1 rounded-full">Selesai</span>
+                    </div>
+                    <div class="text-sm space-y-1 text-gray-700">
+                        <p><span class="font-semibold">Alat:</span> Proyektor LCD</p>
+                        <p><span class="font-semibold">Keperluan:</span> Mengajar Mata Kuliah</p>
+                        <p><span class="font-semibold">Detail:</span> MK Dasar Pemrograman, Kelas B</p>
+                        <p class="text-xs text-gray-500 mt-2">
+                            <span class="font-semibold">Waktu:</span> 04 Okt 2025, 08:00 - 04 Okt 2025, 10:00
+                        </p>
+                    </div>
                 </div>
-                 <!-- Contoh riwayat 2 -->
-                <div class="bg-gray-50 p-3 rounded-md">
-                    <p class="font-semibold">Dr. Jane Smith (Dosen)</p>
-                    <p class="text-sm">Alat: Stop Kontak</p>
-                    <p class="text-xs text-gray-500">Pinjam: 04 Okt 2025 | Kembali: 04 Okt 2025</p>
-                    <p class="text-xs text-gray-500">Status: <span class="text-green-600 font-semibold">Selesai</span></p>
+                
+                 <!-- Contoh riwayat 2: Mahasiswa -->
+                <div class="bg-gray-50 p-4 rounded-lg border">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <p class="font-bold text-primary">Budi (Mahasiswa)</p>
+                            <p class="text-sm text-gray-600">NIM: 123456789</p>
+                        </div>
+                        <span class="text-xs font-semibold bg-green-100 text-green-800 px-2 py-1 rounded-full">Selesai</span>
+                    </div>
+                    <div class="text-sm space-y-1 text-gray-700">
+                        <p><span class="font-semibold">Alat:</span> Konektor HDMI</p>
+                        <p><span class="font-semibold">Keperluan:</span> Untuk Mata Kuliah</p>
+                        <p><span class="font-semibold">Detail:</span> Angkatan 2021, Prodi Sistem Informasi, Kelas A</p>
+                        <p class="text-xs text-gray-500 mt-2">
+                             <span class="font-semibold">Waktu:</span> 03 Okt 2025, 10:00 - 03 Okt 2025, 12:00
+                        </p>
+                    </div>
                 </div>
-                 <!-- Contoh riwayat 3 -->
-                <div class="bg-gray-50 p-3 rounded-md">
-                    <p class="font-semibold">Budi (Mahasiswa)</p>
-                    <p class="text-sm">Alat: Konektor HDMI</p>
-                    <p class="text-xs text-gray-500">Pinjam: 03 Okt 2025 | Kembali: -</p>
-                    <p class="text-xs text-gray-500">Status: <span class="text-blue-600 font-semibold">Dipinjam</span></p>
+
+                 <!-- Contoh riwayat 3: Pegawai (Sedang Meminjam) -->
+                <div class="bg-gray-50 p-4 rounded-lg border">
+                     <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <p class="font-bold text-primary">Agus Setiawan (Pegawai)</p>
+                            <p class="text-sm text-gray-600">NIP: 555444333</p>
+                        </div>
+                        <span class="text-xs font-semibold bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Dipinjam</span>
+                    </div>
+                    <div class="text-sm space-y-1 text-gray-700">
+                        <p><span class="font-semibold">Alat:</span> Stop Kontak 5 Lubang</p>
+                        <p><span class="font-semibold">Keperluan:</span> Kegiatan Kampus</p>
+                        <p><span class="font-semibold">Detail:</span> Seminar Nasional di Aula Gedung A</p>
+                        <p class="text-xs text-gray-500 mt-2">
+                            <span class="font-semibold">Waktu:</span> 05 Okt 2025, 09:00 - Belum kembali
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
